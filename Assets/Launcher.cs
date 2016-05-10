@@ -5,7 +5,7 @@ public class Launcher : MonoBehaviour {
 
     public Transform transform;
 
-    public Rigidbody2D bubble;
+    public GameObject bubble;
 
 	void Start ()
     {
@@ -26,8 +26,8 @@ public class Launcher : MonoBehaviour {
 
     void Fire ()
     {
-        Rigidbody2D bubbleClone = (Rigidbody2D) Instantiate(bubble, transform.position, transform.rotation);
-        bubbleClone.velocity = transform.rotation * Vector3.forward * 100f;
+        GameObject bubbleClone = (GameObject) Instantiate(bubble, transform.position, transform.rotation);
+        bubbleClone.GetComponent<Rigidbody2D>().velocity = transform.right * 10f;
 
     }
 }
