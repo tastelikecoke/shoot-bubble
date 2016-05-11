@@ -9,6 +9,7 @@ public class GridManager : MonoBehaviour
 	public int columns;
 	public int rows;
 	public int[,] grid;
+    public float gap;
 
 	void Start()
 	{
@@ -16,7 +17,7 @@ public class GridManager : MonoBehaviour
 
 		for (int i = 0; i < columns; i++)
         {
-            Vector3 position = new Vector3((float)i * 1.3f, 0f, 0f) + initialPos;
+            Vector3 position = new Vector3((float)i * gap, 0f, 0f) + initialPos;
             Create(position);
         }
 	}
@@ -25,11 +26,23 @@ public class GridManager : MonoBehaviour
 	{
 		Vector3 objectOffset = position - initialPos;
         Vector3 objectSnap = new Vector3(
-            Mathf.Round(objectOffset.x / 1.3f) * 1.3f,
-            Mathf.Round(objectOffset.y / 1.3f) * 1.3f,
+            Mathf.Round(objectOffset.x / gap),
+            Mathf.Round(objectOffset.y / gap),
             0f
         );
-        return initialPos + objectSnap;
+
+        if ((int)objectSnap.y % 2 != 0)
+        {
+            if (objectOffset.x > objectSnap.x * gap)
+            {
+                objectSnap.x += 0.5f;
+            }
+            else
+            {
+                objectSnap.x -= 0.5f;
+            }
+        }
+        return initialPos + objectSnap * gap;
 	}
 
 	public void Create(Vector2 position)
@@ -38,7 +51,6 @@ public class GridManager : MonoBehaviour
         GameObject bubbleClone = (GameObject)Instantiate(bubble, snappedPosition, Quaternion.identity);
         bubbleClone.GetComponent<CircleCollider2D>().isTrigger = true;
         bubbleClone.GetComponent<GridMember>().mother = gameObject;
-        Debug.Log(bubbleClone.GetComponent<GridMember>().mother);
         bubbleClone.SetActive(true);
     }
 }
