@@ -6,7 +6,6 @@ public class GridMember : MonoBehaviour
     public GameObject mother;
 	void Start ()
     {
-	
 	}
 	
 	void Update ()
@@ -15,5 +14,8 @@ public class GridMember : MonoBehaviour
 	}
     void OnTriggerEnter2D (Collider2D collider)
     {
+        Transform t = collider.gameObject.GetComponent<Transform>();
+        Destroy(collider.gameObject);
+        mother.GetComponent<GridManager>().Create(t.position);
     }
 }
