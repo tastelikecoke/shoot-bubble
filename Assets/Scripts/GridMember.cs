@@ -4,6 +4,8 @@ using System.Collections;
 public class GridMember : MonoBehaviour
 {
 	public GameObject mother;
+	public int row;
+	public int column;
 
 	void OnTriggerEnter2D (Collider2D collider)
 	{

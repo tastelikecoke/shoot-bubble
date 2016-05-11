@@ -8,12 +8,12 @@ public class GridManager : MonoBehaviour
 	public Vector3 initialPos;
 	public int columns;
 	public int rows;
-	public int[,] grid;
+	public GameObject[,] grid;
 	public float gap;
 
 	void Start()
 	{
-		grid = new int[columns, rows];
+		grid = new GameObject[12, 20];
 
 		for (int i = 0; i < columns; i++)
 		{
@@ -44,13 +44,30 @@ public class GridManager : MonoBehaviour
 		}
 		return initialPos + objectSnap * gap;
 	}
+	
 
 	public void Create(Vector2 position)
 	{
 		Vector3 snappedPosition = Snap(position);
+		int row = (int) ((snappedPosition.y - initialPos.y) / gap);
+		int column = 0;
+		if(row % 2 != 0)
+		{
+			column = (int) ((snappedPosition.x - initialPos.x) / gap - 0.5f);
+		}
+		else
+		{
+			column = (int)((snappedPosition.x - initialPos.x) / gap);
+		}
+
 		GameObject bubbleClone = (GameObject)Instantiate(bubble, snappedPosition, Quaternion.identity);
 		bubbleClone.GetComponent<CircleCollider2D>().isTrigger = true;
 		bubbleClone.GetComponent<GridMember>().mother = gameObject;
+		bubbleClone.GetComponent<GridMember>().row = row;
+		bubbleClone.GetComponent<GridMember>().column = column;
 		bubbleClone.SetActive(true);
+
+		grid[column, -row] = bubbleClone;
+
 	}
 }
