@@ -228,7 +228,6 @@ public class GridManager : MonoBehaviour
 		{
 			int[] top = queue.Dequeue();
 			count += 1;
-			GameObject gtop = grid[top[0], top[1]];
 			for (int i = 0; i < 6; i++)
 			{
 				int[] neighbor = new int[2];
