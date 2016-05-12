@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GridManager : MonoBehaviour
 {
@@ -14,11 +15,20 @@ public class GridManager : MonoBehaviour
 	void Start()
 	{
 		grid = new GameObject[12, 20];
-
-		for (int i = 0; i < columns; i++)
+		for (int r = 0; r < rows; r++ )
 		{
-			Vector3 position = new Vector3((float)i * gap, 0f, 0f) + initialPos;
-			Create(position);
+			if (r % 2 != 0) columns -= 1;
+			for (int c = 0; c < columns; c++)
+			{
+				Vector3 position = new Vector3((float)c * gap, (float)(-r) * gap, 0f) + initialPos;
+				if (r % 2 != 0)
+					position.x += 0.5f * gap;
+
+				int newKind = (int)Random.Range(1f, 4f);
+				Create(position, newKind);
+
+			}
+			if (r % 2 != 0) columns += 1;
 		}
 	}
 
@@ -46,28 +56,136 @@ public class GridManager : MonoBehaviour
 	}
 	
 
-	public void Create(Vector2 position)
+	public GameObject Create(Vector2 position, int kind)
 	{
 		Vector3 snappedPosition = Snap(position);
-		int row = (int) ((snappedPosition.y - initialPos.y) / gap);
+		int row = (int) Mathf.Round((snappedPosition.y - initialPos.y) / gap);
 		int column = 0;
 		if(row % 2 != 0)
 		{
-			column = (int) ((snappedPosition.x - initialPos.x) / gap - 0.5f);
+			column = (int) Mathf.Round((snappedPosition.x - initialPos.x) / gap - 0.5f);
 		}
 		else
 		{
-			column = (int)((snappedPosition.x - initialPos.x) / gap);
+			column = (int) Mathf.Round((snappedPosition.x - initialPos.x) / gap);
 		}
 
 		GameObject bubbleClone = (GameObject)Instantiate(bubble, snappedPosition, Quaternion.identity);
-		bubbleClone.GetComponent<CircleCollider2D>().isTrigger = true;
-		bubbleClone.GetComponent<GridMember>().mother = gameObject;
-		bubbleClone.GetComponent<GridMember>().row = row;
-		bubbleClone.GetComponent<GridMember>().column = column;
+
+		CircleCollider2D collider = bubbleClone.GetComponent<CircleCollider2D>();
+		if(collider != null)
+		{
+			collider.isTrigger = true;
+		}
+
+		GridMember gridMember = bubbleClone.GetComponent<GridMember>();
+		if(gridMember != null)
+		{
+
+			gridMember.parent = gameObject;
+			gridMember.row = row;
+			gridMember.column = column;
+			gridMember.kind = kind;
+
+			SpriteRenderer spriteRenderer = bubbleClone.GetComponent<SpriteRenderer>();
+			if (spriteRenderer != null)
+			{
+				if (gridMember.kind == 1)
+				{
+					spriteRenderer.color = Color.red;
+				}
+				if (gridMember.kind == 2)
+				{
+					spriteRenderer.color = Color.blue;
+				}
+				if (gridMember.kind == 3)
+				{
+					spriteRenderer.color = Color.yellow;
+				}
+			}
+		}
 		bubbleClone.SetActive(true);
+		try
+		{
+			grid[column, -row] = bubbleClone;
+		}
+		catch (System.IndexOutOfRangeException e)
+		{
+		}
 
-		grid[column, -row] = bubbleClone;
+		return bubbleClone;
+	}
 
+	public void Seek (int column, int row, int kind)
+	{
+		int[] pair = new int[2] { column, row };
+
+		bool[,] visited = new bool[12,20];
+
+		visited[column, row] = true;
+
+		int[] deltax = { -1, 0, -1, 0, -1, 1 };
+		int[] deltaxprime = { 1, 0, 1, 0, -1, 1 };
+		int[] deltay = { -1, -1, 1, 1, 0, 0 };
+		
+	
+		Queue<int[]> queue = new Queue<int[]>();
+		Queue<GameObject> objectQueue = new Queue<GameObject>();
+
+		queue.Enqueue(pair);
+
+		int count = 0;
+		while (queue.Count != 0)
+		{
+			int[] top = queue.Dequeue();
+			GameObject gtop = grid[top[0], top[1]];
+			if(gtop != null)
+			{
+				objectQueue.Enqueue(gtop);
+			}
+			Debug.Log(top[0]);
+			Debug.Log(top[1]);
+			Debug.Log("***");
+			count += 1;
+			for(int i = 0; i < 6; i++)
+			{
+				int[] neighbor = new int[2];
+				if (top[1] % 2 == 0)
+				{
+					neighbor[0] = top[0] + deltax[i];
+				}
+				else
+				{
+					neighbor[0] = top[0] + deltaxprime[i];
+				}
+				neighbor[1] = top[1] + deltay[i];
+				try
+				{
+					GameObject g = grid[neighbor[0], neighbor[1]];
+					if(g != null)
+					{
+						GridMember gridMember = g.GetComponent<GridMember>();
+						if(gridMember != null && gridMember.kind == kind)
+						{
+							if (!visited[neighbor[0], neighbor[1]])
+							{
+								visited[neighbor[0], neighbor[1]] = true;
+								queue.Enqueue(neighbor);
+							}
+						}
+					}
+				}
+				catch (System.IndexOutOfRangeException e)
+				{
+				}
+			}
+		}
+		if(count >= 3)
+		{
+			while(objectQueue.Count != 0)
+			{
+				Destroy(objectQueue.Dequeue());
+			}
+		}
 	}
 }
