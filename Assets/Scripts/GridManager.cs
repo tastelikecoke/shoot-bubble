@@ -109,12 +109,13 @@ public class GridManager : MonoBehaviour
 		{
 			grid[column, -row] = bubbleClone;
 		}
-		catch (System.IndexOutOfRangeException e)
+		catch (System.IndexOutOfRangeException)
 		{
 		}
 
 		return bubbleClone;
 	}
+	
 
 	public void Seek (int column, int row, int kind)
 	{
@@ -143,9 +144,6 @@ public class GridManager : MonoBehaviour
 			{
 				objectQueue.Enqueue(gtop);
 			}
-			Debug.Log(top[0]);
-			Debug.Log(top[1]);
-			Debug.Log("***");
 			count += 1;
 			for(int i = 0; i < 6; i++)
 			{
@@ -175,7 +173,7 @@ public class GridManager : MonoBehaviour
 						}
 					}
 				}
-				catch (System.IndexOutOfRangeException e)
+				catch (System.IndexOutOfRangeException)
 				{
 				}
 			}
@@ -186,12 +184,103 @@ public class GridManager : MonoBehaviour
 			{
 				GameObject g = objectQueue.Dequeue();
 
+				CircleCollider2D cc = g.GetComponent<CircleCollider2D>();
+				if (cc != null)
+					cc.enabled = false;
+
+				Rigidbody2D rb = g.GetComponent<Rigidbody2D>();
+				if (rb != null)
+					rb.gravityScale = 1f;
+
 				GridMember gm = g.GetComponent<GridMember>();
 				if(gm != null)
 					grid[gm.column, -gm.row] = null;
-
-				Destroy(g);
 			}
 		}
+		CheckCeiling(0);
+	}
+
+
+	public void CheckCeiling(int ceiling)
+	{
+
+		bool[,] visited = new bool[12, 20];
+		
+		Queue<int[]> queue = new Queue<int[]>();
+
+		int[] deltax = { -1, 0, -1, 0, -1, 1 };
+		int[] deltaxprime = { 1, 0, 1, 0, -1, 1 };
+		int[] deltay = { -1, -1, 1, 1, 0, 0 };
+
+		for (int i = 0; i < 12; i++)
+		{
+			int[] pair = new int[2] {i, ceiling};
+			if(grid[i, ceiling] != null)
+			{
+				visited[i, ceiling] = true;
+				queue.Enqueue(pair);
+			}
+		}
+
+		while (queue.Count != 0)
+		{
+			int[] top = queue.Dequeue();
+			GameObject gtop = grid[top[0], top[1]];
+			for (int i = 0; i < 6; i++)
+			{
+				int[] neighbor = new int[2];
+				if (top[1] % 2 == 0)
+				{
+					neighbor[0] = top[0] + deltax[i];
+				}
+				else
+				{
+					neighbor[0] = top[0] + deltaxprime[i];
+				}
+				neighbor[1] = top[1] + deltay[i];
+				try
+				{
+					GameObject g = grid[neighbor[0], neighbor[1]];
+					if (g != null)
+					{
+						if (!visited[neighbor[0], neighbor[1]])
+						{
+							visited[neighbor[0], neighbor[1]] = true;
+							queue.Enqueue(neighbor);
+						}
+					}
+				}
+				catch (System.IndexOutOfRangeException)
+				{
+				}
+			}
+		}
+
+		for (int r = 0; r < 20; r++)
+		{
+			for (int c = 0; c < 12; c++)
+			{
+				if(grid[c,r] != null)
+				{
+					if (!visited[c, r])
+					{
+						GameObject g = grid[c, r];
+
+						CircleCollider2D cc = g.GetComponent<CircleCollider2D>();
+						if (cc != null)
+							cc.enabled = false;
+
+						Rigidbody2D rb = g.GetComponent<Rigidbody2D>();
+						if (rb != null)
+							rb.gravityScale = 1f;
+
+						GridMember gm = g.GetComponent<GridMember>();
+						if (gm != null)
+							grid[gm.column, -gm.row] = null;
+					}
+				}
+			}
+		}
+
 	}
 }
