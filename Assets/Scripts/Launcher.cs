@@ -29,8 +29,14 @@ public class Launcher : MonoBehaviour
 		{
 			load = (GameObject)Instantiate(ball, transform.position, transform.rotation);
 			load.SetActive(true);
+
+			CircleCollider2D collider = load.GetComponent<CircleCollider2D>();
+			if (collider != null)
+				collider.enabled = false;
+
 			Hitter hitter = load.GetComponent<Hitter>();
-			hitter.parent = gameObject;
+			if(hitter != null)
+				hitter.parent = gameObject;
 		}
 	}
 
@@ -38,6 +44,11 @@ public class Launcher : MonoBehaviour
 	{
 		if(load != null)
 		{
+
+			CircleCollider2D collider = load.GetComponent<CircleCollider2D>();
+			if (collider != null)
+				collider.enabled = true;
+
 			Rigidbody2D rb = load.GetComponent<Rigidbody2D>();
 			if (rb != null)
 			{

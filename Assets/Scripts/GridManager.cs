@@ -180,11 +180,17 @@ public class GridManager : MonoBehaviour
 				}
 			}
 		}
-		if(count >= 3)
+		if (count >= 3)
 		{
 			while(objectQueue.Count != 0)
 			{
-				Destroy(objectQueue.Dequeue());
+				GameObject g = objectQueue.Dequeue();
+
+				GridMember gm = g.GetComponent<GridMember>();
+				if(gm != null)
+					grid[gm.column, -gm.row] = null;
+
+				Destroy(g);
 			}
 		}
 	}
