@@ -11,6 +11,7 @@ public class GridManager : MonoBehaviour
 	public int rows;
 	public GameObject[,] grid;
 	public float gap;
+	public GameObject youWin;
 
 	void Start()
 	{
@@ -222,9 +223,11 @@ public class GridManager : MonoBehaviour
 			}
 		}
 
+		int count = 0;
 		while (queue.Count != 0)
 		{
 			int[] top = queue.Dequeue();
+			count += 1;
 			GameObject gtop = grid[top[0], top[1]];
 			for (int i = 0; i < 6; i++)
 			{
@@ -254,6 +257,12 @@ public class GridManager : MonoBehaviour
 				{
 				}
 			}
+		}
+
+		if (count == 0)
+		{
+			if(youWin != null)
+				youWin.SetActive(true);
 		}
 
 		for (int r = 0; r < 20; r++)
