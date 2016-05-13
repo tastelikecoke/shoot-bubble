@@ -184,18 +184,13 @@ public class GridManager : MonoBehaviour
 			while(objectQueue.Count != 0)
 			{
 				GameObject g = objectQueue.Dequeue();
-
-				CircleCollider2D cc = g.GetComponent<CircleCollider2D>();
-				if (cc != null)
-					cc.enabled = false;
-
-				Rigidbody2D rb = g.GetComponent<Rigidbody2D>();
-				if (rb != null)
-					rb.gravityScale = 1f;
-
+				
 				GridMember gm = g.GetComponent<GridMember>();
-				if(gm != null)
+				if (gm != null)
+				{
 					grid[gm.column, -gm.row] = null;
+					gm.state = "Pop";
+				}
 			}
 		}
 		CheckCeiling(0);
@@ -273,18 +268,13 @@ public class GridManager : MonoBehaviour
 					if (!visited[c, r])
 					{
 						GameObject g = grid[c, r];
-
-						CircleCollider2D cc = g.GetComponent<CircleCollider2D>();
-						if (cc != null)
-							cc.enabled = false;
-
-						Rigidbody2D rb = g.GetComponent<Rigidbody2D>();
-						if (rb != null)
-							rb.gravityScale = 1f;
-
 						GridMember gm = g.GetComponent<GridMember>();
 						if (gm != null)
+						{
 							grid[gm.column, -gm.row] = null;
+							gm.state = "Explode";
+						}
+
 					}
 				}
 			}
