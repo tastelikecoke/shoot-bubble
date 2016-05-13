@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Trigger : MonoBehaviour
 {
 	
 	void OnMouseDown ()
 	{
-		Application.LoadLevel("Level1");
+		SceneManager.LoadScene("Level1");
 	}
 }
