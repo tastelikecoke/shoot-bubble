@@ -43,8 +43,12 @@ public class Hitter : MonoBehaviour
 			if (gridManager != null)
 			{
 				GameObject newBubble = gridManager.Create(transform.position, kind);
-				GridMember gridMember = newBubble.GetComponent<GridMember>();
-				gridManager.Seek(gridMember.column, -gridMember.row, gridMember.kind);
+				if(newBubble != null)
+				{
+					GridMember gridMember = newBubble.GetComponent<GridMember>();
+					if (gridMember != null)
+						gridManager.Seek(gridMember.column, -gridMember.row, gridMember.kind);
+				}
 			}
 			Launcher launcher = parent.GetComponent<Launcher>();
 			if (launcher != null)

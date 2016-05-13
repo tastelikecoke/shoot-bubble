@@ -74,7 +74,17 @@ public class GridManager : MonoBehaviour
 			column = (int) Mathf.Round((snappedPosition.x - initialPos.x) / gap);
 		}
 
+
 		GameObject bubbleClone = (GameObject)Instantiate(bubble, snappedPosition, Quaternion.identity);
+		try
+		{
+			grid[column, -row] = bubbleClone;
+		}
+		catch(System.IndexOutOfRangeException)
+		{
+			Destroy(bubbleClone);
+			return null;
+		}
 
 		CircleCollider2D collider = bubbleClone.GetComponent<CircleCollider2D>();
 		if(collider != null)
