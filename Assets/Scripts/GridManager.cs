@@ -28,7 +28,7 @@ public class GridManager : MonoBehaviour
 				if (r % 2 != 0)
 					position.x += 0.5f * gap;
 
-				int newKind = (int)Random.Range(1f, 4f);
+				int newKind = (int)Random.Range(1f, 6f);
 				Create(position, newKind);
 
 			}
@@ -104,18 +104,9 @@ public class GridManager : MonoBehaviour
 			SpriteRenderer spriteRenderer = bubbleClone.GetComponent<SpriteRenderer>();
 			if (spriteRenderer != null)
 			{
-				if (gridMember.kind == 1)
-				{
-					spriteRenderer.color = Color.red;
-				}
-				if (gridMember.kind == 2)
-				{
-					spriteRenderer.color = Color.blue;
-				}
-				if (gridMember.kind == 3)
-				{
-					spriteRenderer.color = Color.yellow;
-				}
+				Color[] colorArray = new Color[] { Color.red, Color.cyan, Color.yellow, Color.green, Color.magenta };
+
+				spriteRenderer.color = colorArray[gridMember.kind-1];
 			}
 		}
 		bubbleClone.SetActive(true);

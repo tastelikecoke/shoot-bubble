@@ -11,8 +11,6 @@ public class GridMember : MonoBehaviour
 
 	public void Update ()
 	{
-
-		
 		if (state == "Pop")
 		{
 			CircleCollider2D cc = GetComponent<CircleCollider2D>();

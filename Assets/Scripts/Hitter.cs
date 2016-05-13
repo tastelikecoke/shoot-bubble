@@ -11,22 +11,11 @@ public class Hitter : MonoBehaviour
 		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 		if(spriteRenderer != null)
 		{
-			float lot = Random.Range(0f, 3f);
-			if (0f <= lot && lot <= 1f)
-			{
-				spriteRenderer.color = Color.red;
-				kind = 1;
-			}
-			if (1f <= lot && lot <= 2f)
-			{
-				spriteRenderer.color = Color.blue;
-				kind = 2;
-			}
-			if (2f <= lot && lot <= 3f)
-			{
-				spriteRenderer.color = Color.yellow;
-				kind = 3;
-			}
+			Color[] colorArray = new Color[] { Color.red, Color.cyan, Color.yellow, Color.green, Color.magenta };
+
+			kind = (int) Random.Range(1f, 6f);
+
+			spriteRenderer.color = colorArray[kind - 1];
 		}
 	}
 
