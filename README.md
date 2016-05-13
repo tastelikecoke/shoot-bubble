@@ -1,6 +1,5 @@
-Shoot Bubble
+Blister Wizard
 ------------
-
 A Unity game clone of bubble shooter games.
 
 How To Play
@@ -9,9 +8,18 @@ How To Play
 2. Click the mouse to fire a bubble at the cursor's direction.
 3. Connect 3 or more bubbles of the same color to make them fall down.
 4. You win when there are no more bubbles left.
+5. You can click "play again" to play again after winning.
 
 Build Notes
 -----------
+
+### Build 4
+* Make similar colored bubbles pop and isolated bubbles explode instead
+* Added forest background in the play area
+* Created a title menu and start button
+* Add "play again" button for the player to play again
+* Add catch for possibility of out-of-bounds bubble
+
 ### Build 3
 * Added popping of similar colored bubbles through breadth first search
 * Make bubbles fall down instead of pop
