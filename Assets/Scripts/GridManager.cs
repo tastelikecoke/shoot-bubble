@@ -13,9 +13,12 @@ public class GridManager : MonoBehaviour
 	public float gap;
 	public GameObject youWin;
 
+	const int COL_MAX = 12;
+	const int ROW_MAX = 20;
+
 	void Start()
 	{
-		grid = new GameObject[12, 20];
+		grid = new GameObject[COL_MAX, ROW_MAX];
 		for (int r = 0; r < rows; r++ )
 		{
 			if (r % 2 != 0) columns -= 1;
@@ -122,7 +125,7 @@ public class GridManager : MonoBehaviour
 	{
 		int[] pair = new int[2] { column, row };
 
-		bool[,] visited = new bool[12,20];
+		bool[,] visited = new bool[COL_MAX, ROW_MAX];
 
 		visited[column, row] = true;
 
@@ -200,7 +203,7 @@ public class GridManager : MonoBehaviour
 	public void CheckCeiling(int ceiling)
 	{
 
-		bool[,] visited = new bool[12, 20];
+		bool[,] visited = new bool[COL_MAX, ROW_MAX];
 		
 		Queue<int[]> queue = new Queue<int[]>();
 
@@ -208,7 +211,7 @@ public class GridManager : MonoBehaviour
 		int[] deltaxprime = { 1, 0, 1, 0, -1, 1 };
 		int[] deltay = { -1, -1, 1, 1, 0, 0 };
 
-		for (int i = 0; i < 12; i++)
+		for (int i = 0; i < COL_MAX; i++)
 		{
 			int[] pair = new int[2] {i, ceiling};
 			if(grid[i, ceiling] != null)
@@ -259,9 +262,9 @@ public class GridManager : MonoBehaviour
 				youWin.SetActive(true);
 		}
 
-		for (int r = 0; r < 20; r++)
+		for (int r = 0; r < ROW_MAX; r++)
 		{
-			for (int c = 0; c < 12; c++)
+			for (int c = 0; c < COL_MAX; c++)
 			{
 				if(grid[c,r] != null)
 				{
