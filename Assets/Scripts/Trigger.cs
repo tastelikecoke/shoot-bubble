@@ -4,8 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class Trigger : MonoBehaviour
 {
-	
-	void OnMouseDown ()
+
+	void OnMouseDown()
 	{
 		SceneManager.LoadScene("Level1");
 	}

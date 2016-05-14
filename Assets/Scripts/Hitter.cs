@@ -6,14 +6,14 @@ public class Hitter : MonoBehaviour
 	public int kind;
 	public GameObject parent;
 
-	void Start ()
+	void Start()
 	{
 		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-		if(spriteRenderer != null)
+		if (spriteRenderer != null)
 		{
 			Color[] colorArray = new Color[] { Color.red, Color.cyan, Color.yellow, Color.green, Color.magenta };
 
-			kind = (int) Random.Range(1f, 6f);
+			kind = (int)Random.Range(1f, 6f);
 
 			spriteRenderer.color = colorArray[kind - 1];
 		}
@@ -24,7 +24,7 @@ public class Hitter : MonoBehaviour
 		if (collider != null)
 		{
 			CircleCollider2D selfcollider = GetComponent<CircleCollider2D>();
-			if(selfcollider != null)
+			if (selfcollider != null)
 			{
 				selfcollider.enabled = false;
 			}
@@ -32,7 +32,7 @@ public class Hitter : MonoBehaviour
 			if (gridManager != null)
 			{
 				GameObject newBubble = gridManager.Create(transform.position, kind);
-				if(newBubble != null)
+				if (newBubble != null)
 				{
 					GridMember gridMember = newBubble.GetComponent<GridMember>();
 					if (gridMember != null)

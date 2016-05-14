@@ -6,12 +6,12 @@ public class Launcher : MonoBehaviour
 	public GameObject ball;
 	public GameObject load;
 
-	void Start ()
+	void Start()
 	{
 		Load();
 	}
-	
-	void Update ()
+
+	void Update()
 	{
 		Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		Vector2 delta = mousePos - new Vector2(transform.position.x, transform.position.y);
@@ -23,9 +23,9 @@ public class Launcher : MonoBehaviour
 		}
 	}
 
-	public void Load ()
+	public void Load()
 	{
-		if(load == null)
+		if (load == null)
 		{
 			load = (GameObject)Instantiate(ball, transform.position, transform.rotation);
 			load.SetActive(true);
@@ -35,14 +35,14 @@ public class Launcher : MonoBehaviour
 				collider.enabled = false;
 
 			Hitter hitter = load.GetComponent<Hitter>();
-			if(hitter != null)
+			if (hitter != null)
 				hitter.parent = gameObject;
 		}
 	}
 
-	void Fire ()
+	void Fire()
 	{
-		if(load != null)
+		if (load != null)
 		{
 
 			CircleCollider2D collider = load.GetComponent<CircleCollider2D>();

@@ -9,7 +9,7 @@ public class GridMember : MonoBehaviour
 	public int kind;
 	public string state;
 
-	public void Update ()
+	public void Update()
 	{
 		if (state == "Pop")
 		{
@@ -18,12 +18,12 @@ public class GridMember : MonoBehaviour
 				cc.enabled = false;
 
 			transform.localScale = transform.localScale * 0.9f;
-			if(transform.localScale.sqrMagnitude < 0.05f)
+			if (transform.localScale.sqrMagnitude < 0.05f)
 			{
 				Destroy(gameObject);
 			}
 		}
-		else if(state == "Explode")
+		else if (state == "Explode")
 		{
 			CircleCollider2D cc = GetComponent<CircleCollider2D>();
 			if (cc != null)
@@ -37,9 +37,9 @@ public class GridMember : MonoBehaviour
 			}
 			state = "Fall";
 		}
-		else if(state == "Fall")
+		else if (state == "Fall")
 		{
-			if(transform.position.y < -30f)
+			if (transform.position.y < -30f)
 			{
 				Destroy(gameObject);
 			}
