@@ -8,7 +8,14 @@ How To Play
 2. Click the mouse to fire a bubble at the cursor's direction.
 3. Connect 3 or more bubbles of the same color to make them fall down.
 4. You win when there are no more bubbles left.
-5. You can click "play again" to play again after winning.
+
+Mechanics
+---------
+* There are 5 bubble colors: Red, Yellow, Green, Cyan and Purple.
+* A special bubble color: Rainbow, will turn into one of the 5 colors upon hit.
+* Bubbles that are no longer connected to the ceiling shall fall down.
+* The player will lose if the cannon is blocked by bubbles.
+
 
 Build Notes
 -----------
@@ -19,6 +26,7 @@ Build Notes
 * Add special bubble that only gains color when connected to bubbles
 * Load level through .data file in the assets
 * Reformat whitespaces to be more consistent
+* Add pop sound effects
 
 
 ### Build 4
