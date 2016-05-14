@@ -11,11 +11,20 @@ How To Play
 
 Mechanics
 ---------
-* There are 5 bubble colors: Red, Yellow, Green, Cyan and Purple.
+* There are 5 bubble colors: Red, Cyan, Yellow, Green, and Purple.
 * A special bubble color: Rainbow, will turn into one of the 5 colors upon hit.
 * Bubbles that are no longer connected to the ceiling shall fall down.
 * 3 or more same colored bubbles will not pop until another bubble of same color hits them.
 * The player will lose if the cannon is blocked by bubbles.
+
+Level Editing
+-------------
+A file in the Assets/Data/level1.data determines the layout of the level.
+The file contains several characters, some newlines, and some characters 0-5.
+Each character, except for newline, represents a bubble in a grid.
+The character's number, from 1-5, represents the color Red, Cyan, etc.
+The character 0 represents an empty space.
+The file can only represent 50 bubbles rendered in 4 rows.
 
 
 Build Notes
