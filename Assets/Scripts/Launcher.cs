@@ -52,7 +52,7 @@ public class Launcher : MonoBehaviour
 			Rigidbody2D rb = load.GetComponent<Rigidbody2D>();
 			if (rb != null)
 			{
-				rb.velocity = transform.right * 10f;
+				rb.velocity = transform.right * 15f;
 			}
 		}
 	}
