@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+
 
 public class GridManager : MonoBehaviour
 {
@@ -16,9 +18,22 @@ public class GridManager : MonoBehaviour
 	const int COL_MAX = 12;
 	const int ROW_MAX = 20;
 
+	string LoadLevel()
+	{
+		using (StreamReader r = new StreamReader("Assets/Data/level1.data"))
+		{
+			string json = r.ReadToEnd();
+			return json;
+		}
+	}
+
 	void Start()
 	{
 		grid = new GameObject[COL_MAX, ROW_MAX];
+
+		string level = LoadLevel();
+		int levelpos = 0;
+
 		for (int r = 0; r < rows; r++)
 		{
 			if (r % 2 != 0) columns -= 1;
@@ -28,9 +43,27 @@ public class GridManager : MonoBehaviour
 				if (r % 2 != 0)
 					position.x += 0.5f * gap;
 
-				int newKind = (int)Random.Range(1f, 6f);
-				Create(position, newKind);
+				int newKind = 0;
+				while (level[levelpos] == '\r' || level[levelpos] == '\n')
+					levelpos++;
 
+				if (level[levelpos] == '0')
+				{
+					levelpos++;
+					continue;
+				}
+				if (level[levelpos] == '1')
+					newKind = 1;
+				if (level[levelpos] == '2')
+					newKind = 2;
+				if (level[levelpos] == '3')
+					newKind = 3;
+				if (level[levelpos] == '4')
+					newKind = 4;
+				if (level[levelpos] == '5')
+					newKind = 5;
+				Create(position, newKind);
+				levelpos++;
 			}
 			if (r % 2 != 0) columns += 1;
 		}
@@ -99,13 +132,19 @@ public class GridManager : MonoBehaviour
 			gridMember.parent = gameObject;
 			gridMember.row = row;
 			gridMember.column = column;
-			gridMember.kind = kind;
+			if (kind == 6)
+			{
+				gridMember.kind = (int)Random.Range(1f, 6f);
+			}
+			else
+			{
+				gridMember.kind = kind;
+			}
 
 			SpriteRenderer spriteRenderer = bubbleClone.GetComponent<SpriteRenderer>();
 			if (spriteRenderer != null)
 			{
 				Color[] colorArray = new Color[] { Color.red, Color.cyan, Color.yellow, Color.green, Color.magenta };
-
 				spriteRenderer.color = colorArray[gridMember.kind - 1];
 			}
 		}
