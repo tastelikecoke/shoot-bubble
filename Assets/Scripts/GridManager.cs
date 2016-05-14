@@ -13,6 +13,7 @@ public class GridManager : MonoBehaviour
 	public GameObject[,] grid;
 	public float gap;
 	public GameObject youWin;
+	public GameObject youLose;
 
 	const int COL_MAX = 12;
 	const int ROW_MAX = 20;
@@ -165,6 +166,10 @@ public class GridManager : MonoBehaviour
 			}
 		}
 		bubbleClone.SetActive(true);
+
+		if (column == 6 && row == -6 && youLose != null)
+			youLose.SetActive(true);
+
 		try
 		{
 			grid[column, -row] = bubbleClone;
@@ -253,7 +258,7 @@ public class GridManager : MonoBehaviour
 			}
 
 			AudioSource audioSource = GetComponent<AudioSource>();
-			if(audioSource != null)
+			if (audioSource != null)
 				audioSource.Play();
 		}
 		CheckCeiling(0);
