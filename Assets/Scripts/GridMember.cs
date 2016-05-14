@@ -9,6 +9,10 @@ public class GridMember : MonoBehaviour
 	public int kind;
 	public string state;
 
+	public const float POP_SPEED = 0.9f;
+	public const float EXPLODE_SPEED = 5f;
+	public const float KILL_Y = -30f;
+
 	public void Update()
 	{
 		if (state == "Pop")
@@ -17,7 +21,7 @@ public class GridMember : MonoBehaviour
 			if (cc != null)
 				cc.enabled = false;
 
-			transform.localScale = transform.localScale * 0.9f;
+			transform.localScale = transform.localScale * POP_SPEED;
 			if (transform.localScale.sqrMagnitude < 0.05f)
 			{
 				Destroy(gameObject);
@@ -33,13 +37,17 @@ public class GridMember : MonoBehaviour
 			if (rb != null)
 			{
 				rb.gravityScale = 1f;
-				rb.velocity = new Vector3(Random.Range(-5f, 5f), Random.Range(-5f, 5f), 0f);
+				rb.velocity = new Vector3(
+					Random.Range(-EXPLODE_SPEED, EXPLODE_SPEED),
+					Random.Range(-EXPLODE_SPEED, EXPLODE_SPEED),
+					0f
+				);
 			}
 			state = "Fall";
 		}
 		else if (state == "Fall")
 		{
-			if (transform.position.y < -30f)
+			if (transform.position.y < KILL_Y)
 			{
 				Destroy(gameObject);
 			}

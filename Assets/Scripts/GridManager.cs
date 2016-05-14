@@ -43,6 +43,11 @@ public class GridManager : MonoBehaviour
 					position.x += 0.5f * gap;
 
 				int newKind = 0;
+
+				if (level.Length <= levelpos)
+				{
+					continue;
+				}
 				while (level[levelpos] == '\r' || level[levelpos] == '\n')
 				{
 					levelpos++;
@@ -246,6 +251,10 @@ public class GridManager : MonoBehaviour
 					gm.state = "Pop";
 				}
 			}
+
+			AudioSource audioSource = GetComponent<AudioSource>();
+			if(audioSource != null)
+				audioSource.Play();
 		}
 		CheckCeiling(0);
 	}
@@ -317,18 +326,14 @@ public class GridManager : MonoBehaviour
 		{
 			for (int c = 0; c < COL_MAX; c++)
 			{
-				if (grid[c, r] != null)
+				if (grid[c, r] != null && !visited[c, r])
 				{
-					if (!visited[c, r])
+					GameObject g = grid[c, r];
+					GridMember gm = g.GetComponent<GridMember>();
+					if (gm != null)
 					{
-						GameObject g = grid[c, r];
-						GridMember gm = g.GetComponent<GridMember>();
-						if (gm != null)
-						{
-							grid[gm.column, -gm.row] = null;
-							gm.state = "Explode";
-						}
-
+						grid[gm.column, -gm.row] = null;
+						gm.state = "Explode";
 					}
 				}
 			}

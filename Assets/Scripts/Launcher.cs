@@ -6,6 +6,8 @@ public class Launcher : MonoBehaviour
 	public GameObject ball;
 	public GameObject load;
 
+	public const float LAUNCH_SPEED = 15f;
+
 	void Start()
 	{
 		Load();
@@ -52,7 +54,7 @@ public class Launcher : MonoBehaviour
 			Rigidbody2D rb = load.GetComponent<Rigidbody2D>();
 			if (rb != null)
 			{
-				rb.velocity = transform.right * 15f;
+				rb.velocity = transform.right * LAUNCH_SPEED;
 			}
 		}
 	}
