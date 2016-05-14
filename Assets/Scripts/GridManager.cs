@@ -6,7 +6,6 @@ using System.IO;
 
 public class GridManager : MonoBehaviour
 {
-
 	public GameObject bubble;
 	public Vector3 initialPos;
 	public int columns;
@@ -45,7 +44,9 @@ public class GridManager : MonoBehaviour
 
 				int newKind = 0;
 				while (level[levelpos] == '\r' || level[levelpos] == '\n')
+				{
 					levelpos++;
+				}
 
 				if (level[levelpos] == '0')
 				{
@@ -53,15 +54,26 @@ public class GridManager : MonoBehaviour
 					continue;
 				}
 				if (level[levelpos] == '1')
+				{
 					newKind = 1;
+				}
 				if (level[levelpos] == '2')
+				{
 					newKind = 2;
+				}
 				if (level[levelpos] == '3')
+				{
 					newKind = 3;
+				}
 				if (level[levelpos] == '4')
+				{
 					newKind = 4;
+				}
 				if (level[levelpos] == '5')
+				{
 					newKind = 5;
+				}
+
 				Create(position, newKind);
 				levelpos++;
 			}
@@ -91,7 +103,6 @@ public class GridManager : MonoBehaviour
 		}
 		return initialPos + objectSnap * gap;
 	}
-
 
 	public GameObject Create(Vector2 position, int kind)
 	{
