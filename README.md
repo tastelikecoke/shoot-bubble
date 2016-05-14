@@ -14,6 +14,7 @@ Mechanics
 * There are 5 bubble colors: Red, Yellow, Green, Cyan and Purple.
 * A special bubble color: Rainbow, will turn into one of the 5 colors upon hit.
 * Bubbles that are no longer connected to the ceiling shall fall down.
+* 3 or more same colored bubbles will not pop until another bubble of same color hits them.
 * The player will lose if the cannon is blocked by bubbles.
 
 
