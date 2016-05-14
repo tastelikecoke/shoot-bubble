@@ -13,6 +13,14 @@ How To Play
 Build Notes
 -----------
 
+### Build 5
+* Include 5 bubble colors
+* Fix start button using obsolete library
+* Add special bubble that only gains color when connected to bubbles
+* Load level through .data file in the assets
+* Reformat whitespaces to be more consistent
+
+
 ### Build 4
 * Make similar colored bubbles pop and isolated bubbles explode instead
 * Added forest background in the play area
